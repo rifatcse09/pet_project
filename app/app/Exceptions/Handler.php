@@ -1,29 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Exceptions;
 
-use Throwable;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\PostTooLargeException;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use PDOException;
 use ReflectionException;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Auth\Access\AuthorizationException;
-use \Illuminate\Http\Exceptions\PostTooLargeException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
-
     /**
      * A list of the exception types that are not reported.
      *
      * @var array
      */
-    protected $dontReport = [
-        //
-    ];
+    protected $dontReport = [];
 
     /**
      * A list of the inputs that are never flashed for validation exceptions.
@@ -41,8 +43,7 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
-     * @return void
+     * @param  Exception $exception
      */
     public function report(Throwable $exception)
     {
@@ -52,11 +53,9 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
-     * @return \Symfony\Component\HttpFoundation\Response|\Illuminate\Http\Response
-     *
-     * @throws \Throwable
+     * @param  Request $request
+     * @return Response|\Illuminate\Http\Response
+     * @throws Throwable
      */
     public function render($request, Throwable $exception)
     {
@@ -66,12 +65,10 @@ class Handler extends ExceptionHandler
         }
 
         return parent::render($request, $exception);
-
     }
 
     public function apiException($exception)
     {
-
         if ($exception instanceof AuthorizationException) {
             return $this->errorResponse($exception->getMessage() ?: 'You are not authorized to access this resource', 403);
         }
@@ -108,12 +105,11 @@ class Handler extends ExceptionHandler
         return $this->errorResponse($exception->getMessage(), 500);
     }
 
-
     protected function errorResponse($message, $statusCode, $errors = [])
     {
         //return response()->json(['error' => 'Class not found'], 404);
         return api([
-            'errors' => $errors
+            'errors' => $errors,
         ])->fails($message, $statusCode);
     }
 }

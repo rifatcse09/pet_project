@@ -6,13 +6,14 @@ namespace App\Http\Controllers\V1\Restaurant;
 
 use App\Http\Controllers\Controller;
 use App\Models\RestaurantInfo;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
 final class RestaurantInfoController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request) : JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -27,11 +28,9 @@ final class RestaurantInfoController extends Controller
         $data = RestaurantInfo::create($request->all());
 
         return api([$data])->success('Restaurants Created Successfully');
-
-        return response()->json(['status' => 'success', 'data' => $data], 200);
     }
 
-    public function getRestaurant($id)
+    public function getRestaurant($id) : JsonResponse
     {
         $data = RestaurantInfo::find($id);
 

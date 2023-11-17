@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -21,8 +23,6 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -32,7 +32,6 @@ class RouteServiceProvider extends ServiceProvider
         //     Route::middleware('api')
         //         // ->prefix('api/v1')
         //         ->group(base_path('routes/api.php'));
-
 
         // });
 
@@ -47,8 +46,6 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Configure the rate limiters for the application.
-     *
-     * @return void
      */
     // protected function configureRateLimiting()
     // {
@@ -57,11 +54,11 @@ class RouteServiceProvider extends ServiceProvider
     //     });
     // }
 
-    protected function configureRateLimiting(): void
+    protected function configureRateLimiting() : void
     {
         RateLimiter::for(
             name: 'api',
-            callback: static fn (Request $request): Limit => Limit::perMinute(
+            callback: static fn (Request $request) : Limit => Limit::perMinute(
                 maxAttempts: 60,
             )->by(
                 key: $request->user()?->id ?: $request->ip(),
