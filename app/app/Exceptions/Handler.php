@@ -91,7 +91,7 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof ValidationException) {
-            return $this->errorResponse($exception->getMessage(), 422, $exception->errors());
+            return $this->errorResponse('Validation error', 422, $exception->errors());
         }
 
         if ($exception instanceof PostTooLargeException) {
