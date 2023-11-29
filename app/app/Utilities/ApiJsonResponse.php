@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace App\Utilities;
 
 use Exception;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
-use Illuminate\Validation\ValidationException;
 use Throwable;
-
-use function class_exists;
-use function is_object;
 use function response;
+use function is_object;
+use function class_exists;
+
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
 
 class ApiJsonResponse
 {
     protected int $httpCode = 200;
-    protected int $code     = 20000;
+    protected int $code     = 200;
     protected string $message;
     protected mixed $data;
     protected ?string $details = '';
@@ -57,7 +57,7 @@ class ApiJsonResponse
         /**
          * @var int $code
          */
-        $this->code    = $code ?? $httpCode * 100;
+        $this->code    = $code ?? $httpCode;
         $this->message = $message;
         $response      = [
             'status'  => 'SUCCESS',
@@ -78,7 +78,7 @@ class ApiJsonResponse
         /**
          * @var int $code
          */
-        $this->code    = $code ?? $httpCode * 100;
+        $this->code    = $code ?? $httpCode;
         $this->message = $message;
         $response      = [
             'status'  => 'ERROR',
