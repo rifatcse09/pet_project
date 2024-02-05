@@ -14,13 +14,13 @@ To install the application, follow the steps below:
 1. Clone the repository:
 
    ```
-   git clone https://github.com/rifatcse09/food_delivery
+   git clone https://github.com/rifatcse09/pet_project
    ```
 
 2. Navigate to the cloned directory:
 
    ```
-   cd food_delivery
+   cd pet_project
    ```
 
 3. Run the installation script:
