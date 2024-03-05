@@ -1,4 +1,4 @@
-# Containerized your laravel application with laradok
+# Containerized your laravel application with laraship
 
 This is a Laravel application containerized with PHP8.1, Nginx, MySQL, Worker, Mailhog, and Redis. It can be used as a base setup to quickly get started with Laravel development.
 
